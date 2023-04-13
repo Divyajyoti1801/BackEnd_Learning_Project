@@ -1,4 +1,9 @@
 import { app } from "./app.js";
+import { connectDB } from "./data/database.js";
+
+/* Database Connection */
+connectDB();
+
 
 //Server instance initialization
 app.listen(process.env.PORT, () => {

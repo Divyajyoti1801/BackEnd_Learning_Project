@@ -2,7 +2,6 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { config } from "dotenv";
 import express from "express";
-import { connectDB } from "./data/database.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import taskRouter from "./routes/task.js";
 import userRouter from "./routes/user.js";
@@ -31,5 +30,3 @@ app.use("/api/v1/tasks", taskRouter);
 //Using error middleware for handling error
 app.use(errorMiddleware);
 
-/* Database Connection */
-connectDB();
