@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "./component/header";
+import Header from "./components/header";
 import { Context, server } from "./main";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -15,7 +15,7 @@ const App = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${server}/users/me`, {
+      .get(`${server}/users/profile`, {
         withCredentials: true,
       })
       .then((res) => {

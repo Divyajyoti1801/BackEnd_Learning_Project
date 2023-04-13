@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Navigate } from "react-router-dom";
-import TodoItem from "../component/TodoItem";
+import TodoItem from "../components/TodoItem";
 import { Context, server } from "../main";
 
 const Home = () => {
@@ -11,12 +11,13 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [refresh, setRefresh] = useState(false);
+
   const { isAuthenticated } = useContext(Context);
 
   const updateHandler = async (id) => {
     try {
       const { data } = await axios.put(
-        `${server}/task/${id}`,
+        `${server}/tasks/${id}`,
         {},
         {
           withCredentials: true,
@@ -31,7 +32,7 @@ const Home = () => {
   };
   const deleteHandler = async (id) => {
     try {
-      const { data } = await axios.delete(`${server}/task/${id}`, {
+      const { data } = await axios.delete(`${server}/tasks/${id}`, {
         withCredentials: true,
       });
 
@@ -47,7 +48,7 @@ const Home = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        `${server}/task/new`,
+        `${server}/tasks/new`,
         {
           title,
           description,
@@ -70,9 +71,10 @@ const Home = () => {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     axios
-      .get(`${server}/task/my`, {
+      .get(`${server}/tasks/all`, {
         withCredentials: true,
       })
       .then((res) => {
