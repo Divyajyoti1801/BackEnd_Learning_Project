@@ -1,4 +1,5 @@
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import { config } from "dotenv";
 import express from "express";
 import { connectDB } from "./data/database.js";
@@ -15,6 +16,13 @@ config({
 //Use of Middleware (Must be declared before usage of router)
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: [process.env.FRONT_END_URL],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 //User Routing
 app.use("/api/v1/users", userRouter);
