@@ -4,7 +4,7 @@ import { User } from "../models/user.js";
 import { sendCookie } from "../utils/features.js";
 
 //Controller for Registering New User
-export const createNewUser = async (req, res) => {
+export const createNewUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     let user = await User.findOne({ email });

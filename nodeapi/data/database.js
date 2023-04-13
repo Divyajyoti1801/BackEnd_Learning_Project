@@ -5,6 +5,6 @@ export const connectDB = () => {
     .connect(process.env.MONGO_URL, {
       dbName: "backendapi",
     })
-    .then(() => console.log("Database is connected locally"))
+    .then((c) => console.log(`Database is connected: ${c.connection.host}`))
     .catch((e) => console.log("Database Connection Failed" + e));
 };
