@@ -8,7 +8,7 @@ export const createNewUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     let user = await User.findOne({ email });
-    if (user) return next(new ErrorHandler("User Already exists", 404));
+    if (user) return next(new ErrorHandler("User Already exists", 400));
     const hashedPassword = await bcrypt.hash(password, 10);
     user = await User.create({ name, email, password: hashedPassword });
     sendCookie(user, res, "Registered Successfully", 201);
@@ -39,30 +39,22 @@ export const loginUser = async (req, res, next) => {
 };
 
 export const getUserProfile = (req, res, next) => {
-  try {
-    res.status(200).json({
+  res.status(200).json({
+    success: true,
+    user: req.user,
+  });
+};
+
+export const logout = (req, res) => {
+  res
+    .status(200)
+    .cookie("token", "", {
+      expires: new Date(Date.now),
+      sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
+      secure: process.env.NODE_ENV === "Development" ? false : true,
+    })
+    .json({
       success: true,
       user: req.user,
     });
-  } catch (e) {
-    next(e);
-  }
-};
-
-export const logout = (req, res, next) => {
-  try {
-    res
-      .status(200)
-      .cookie("token", "", {
-        expires: new Date(Date.now),
-        sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
-        secure: process.env.NODE_ENV === "Development" ? false : true,
-      })
-      .json({
-        success: true,
-        user: req.user,
-      });
-  } catch (e) {
-    next(e);
-  }
 };
